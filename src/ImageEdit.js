@@ -6,17 +6,6 @@ function ImageEdit({ image }) {
   const [editedImage, setEditedImage] = useState(null);
 
 
-
-  
-  const downloadButton = () => {
-    if (editedImage) {
-      const a = document.createElement('a');
-      a.href = editedImage;
-      a.download = 'edited_image.png';
-      a.click();
-    }
-  };
-  
   const Filters = () => {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
@@ -38,7 +27,24 @@ function ImageEdit({ image }) {
     };
   };
 
-  
+  const handleBrightnessChange = (e) => {
+    setBrightness(e.target.value);
+    Filters();
+  };
+
+  const handleContrastChange = (e) => {
+    setContrast(e.target.value);
+    Filters();
+  };
+
+  const handleDownload = () => {
+    if (editedImage) {
+      const a = document.createElement('a');
+      a.href = editedImage;
+      a.download = 'edited_image.png';
+      a.click();
+    }
+  };
 
   return (
     <div>
@@ -50,7 +56,7 @@ function ImageEdit({ image }) {
           min="0"
           max="200"
           value={brightness}
-          onChange={(e) => setBrightness(e.target.value)}
+          onChange={handleBrightnessChange}
         />
       </div>
       <div>
@@ -61,11 +67,10 @@ function ImageEdit({ image }) {
           min="0"
           max="200"
           value={contrast}
-          onChange={(e) => setContrast(e.target.value)}
+          onChange={handleContrastChange}
         />
       </div>
-      <button onClick={Filters}>Set</button>
-      <button onClick={downloadButton}>Download </button>
+      <button onClick={handleDownload}>Download Edited Image</button>
       {editedImage && (
         <img
           src={editedImage}
